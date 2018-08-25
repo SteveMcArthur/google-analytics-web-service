@@ -56,7 +56,7 @@ function formatData(rawData,minimiseData) {
  * @param {object} cachedData
  * @returns {object | boolean}
  */
-function hasCachedData(endPoint,cachedData) {
+function hasCachedData(endPoint,cachedData,cacheExpires) {
     if (cachedData) {
         if (cachedData[endPoint]) {
             if (((new Date()).getTime() - cachedData[endPoint].cachedTime) < cacheExpires) {
@@ -171,7 +171,7 @@ function GAwebservice(qryId,credPath){
  */
 GAwebservice.prototype.retrieveData = function(query, endPoint, callback) {
 
-    var data = hasCachedData(endPoint,this.cachedData);
+    var data = hasCachedData(endPoint,this.cachedData,this.cacheExpires);
     if (data) {
         data = formatData(data,this.minimiseData);
         return callback(null, data);
